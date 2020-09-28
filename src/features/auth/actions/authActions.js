@@ -5,3 +5,11 @@ export const signup = (payload, meta) => {
     meta,
   };
 };
+
+export const login = (payload, meta) => {
+  return {
+    type: "LOGIN_REQUEST",
+    payload,
+    meta,
+  };
+};

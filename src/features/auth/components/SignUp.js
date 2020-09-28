@@ -28,7 +28,7 @@ const StyledInput = styled.input`
   background-color: ${(props) => props.theme.surface};
   border: 1px solid ${(props) => props.theme.border};
   color: ${(props) => props.theme.onPrimary};
-  height: 1.6rem;
+  height: 1.8rem;
   margin: 0.4rem 0;
 `;
 
