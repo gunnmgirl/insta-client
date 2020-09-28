@@ -28,8 +28,18 @@ const StyledInput = styled.input`
   background-color: ${(props) => props.theme.surface};
   border: 1px solid ${(props) => props.theme.border};
   color: ${(props) => props.theme.onPrimary};
-  height: 2rem;
+  height: 1.6rem;
   margin: 0.4rem 0;
+`;
+
+const StyledTextarea = styled.textarea`
+  background-color: ${(props) => props.theme.surface};
+  border: 1px solid ${(props) => props.theme.border};
+  color: ${(props) => props.theme.onPrimary};
+  font-family: "Roboto", sans-serif;
+  height: 4rem;
+  margin: 0.4rem 0;
+  resize: none;
 `;
 
 const StyledText = styled.span`
@@ -42,7 +52,7 @@ const StyledButton = styled.button`
   border: 2px solid ${(props) => props.theme.secondary};
   border-radius: 10px;
   width: 14rem;
-  height: 2.2rem;
+  height: 2rem;
   font-size: 1rem;
   margin: 0.6rem 0;
   :hover {
@@ -78,7 +88,9 @@ function SignUp() {
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
-    username: Yup.string().required("Username is required"),
+    username: Yup.string()
+      .required("Username is required")
+      .min(2, "Username must be at least 2 characters long"),
   });
 
   const formik = useFormik({
@@ -88,6 +100,8 @@ function SignUp() {
       email: "",
       password: "",
       username: "",
+      profileImage: "",
+      description: "",
     },
     onSubmit: (values) => {
       dispatch(signup(values, { formik }));
@@ -163,6 +177,31 @@ function SignUp() {
           />
           {formik.errors.password && formik.touched.password ? (
             <StyledText>{formik.errors.password}</StyledText>
+          ) : null}
+          <label htmlFor="profileImage">Image Url</label>
+          <StyledInput
+            type="text"
+            name="profileImage"
+            id="profileImage"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.profileImage}
+          />
+          {formik.errors.profileImage && formik.touched.profileImage ? (
+            <StyledText>{formik.errors.profileImage}</StyledText>
+          ) : null}
+          <label htmlFor="description">Description</label>
+          <StyledTextarea
+            type="text"
+            name="description"
+            id="description"
+            placeholder="Say something about yourself"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.description}
+          />
+          {formik.errors.description && formik.touched.description ? (
+            <StyledText>{formik.errors.description}</StyledText>
           ) : null}
           <StyledButton
             type="submit"
