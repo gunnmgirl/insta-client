@@ -21,7 +21,7 @@ const store = createStore(
 
 store.subscribe(() => {
   saveState({
-    isLoggedIn: store.getState().auth.isLoggedIn,
+    auth: { isLoggedIn: store.getState().auth.isLoggedIn },
   });
 });
 

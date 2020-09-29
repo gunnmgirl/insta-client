@@ -5,6 +5,7 @@ import { ThemeProvider } from "styled-components";
 
 import SignUp from "./features/auth/components/SignUp";
 import LogIn from "./features/auth/components/LogIn";
+import Feed from "./features/posts/components/Feed";
 import history from "./routing/history";
 import themes from "./themes";
 import GlobalStyle from "./GlobalStyle";
@@ -21,6 +22,7 @@ function App() {
           <Switch>
             <Route path="/signup" component={SignUp} />
             <Route path="/login" component={LogIn} />
+            <Route path="/" component={Feed} />
           </Switch>
         ) : (
           <Switch>
