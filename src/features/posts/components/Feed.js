@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Header from "./Header";
 import PostForm from "./PostForm";
+import Post from "./Post";
+import { getFeedPosts } from "../actions/postsActions";
 
 const MainContainer = styled.div`
   min-height: 100vh;
@@ -18,11 +20,21 @@ const Container = styled.div`
 
 function Feed() {
   const posts = useSelector((state) => state.posts.posts);
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(getFeedPosts({ page: 0 }));
+  }, [dispatch]);
+
+  console.log(posts);
   return (
     <MainContainer>
       <Header />
       <Container>
         <PostForm />
+        {posts.map((post) => (
+          <Post key={post.id} post={post} />
+        ))}
       </Container>
     </MainContainer>
   );

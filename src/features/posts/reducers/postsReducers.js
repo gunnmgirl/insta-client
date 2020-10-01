@@ -25,6 +25,25 @@ export default (state = INITIAL_STATE, action) => {
         loading: true,
         error: false,
       };
+    case "GET_FEED_POSTS_FAILURE":
+      return {
+        ...state,
+        loading: false,
+        error: true,
+      };
+    case "GET_FEED_POSTS_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        posts: [...state.posts, ...action.payload],
+      };
+    case "GET_FEED_POSTS_REQUEST":
+      return {
+        ...state,
+        loading: true,
+        error: false,
+      };
     default:
       return { ...state };
   }

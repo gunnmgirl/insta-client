@@ -5,3 +5,10 @@ export const createPost = (payload, meta) => {
     meta,
   };
 };
+
+export const getFeedPosts = (payload) => {
+  return {
+    type: "GET_FEED_POSTS_REQUEST",
+    payload,
+  };
+};

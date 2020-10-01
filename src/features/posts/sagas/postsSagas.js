@@ -1,6 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 
 import mutations from "../../../api/mutations";
+import queries from "../../../api/queries";
 
 function* createPost(action) {
   const { formik } = action.meta;
@@ -15,8 +16,19 @@ function* createPost(action) {
   }
 }
 
+function* getFeedPosts(action) {
+  try {
+    const data = yield call(queries.getFeedPosts, action.payload);
+    const result = data.data;
+    yield put({ type: "GET_FEED_POSTS_SUCCESS", payload: result });
+  } catch (error) {
+    yield put({ type: "GET_FEED_POSTS_FAILURE", error });
+  }
+}
+
 const saga = function* () {
   yield takeLatest("CREATE_POST_REQUEST", createPost);
+  yield takeLatest("GET_FEED_POSTS_REQUEST", getFeedPosts);
 };
 
 export default saga;
