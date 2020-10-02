@@ -26,7 +26,6 @@ function Feed() {
     dispatch(getFeedPosts({ page: 0 }));
   }, [dispatch]);
 
-  console.log(posts);
   return (
     <MainContainer>
       <Header />

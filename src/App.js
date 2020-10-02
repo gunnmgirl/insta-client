@@ -22,7 +22,7 @@ function App() {
           <Switch>
             <Route path="/signup" component={SignUp} />
             <Route path="/login" component={LogIn} />
-            <Route path="/" component={Feed} />
+            <Route path="/" exact component={Feed} />
           </Switch>
         ) : (
           <Switch>

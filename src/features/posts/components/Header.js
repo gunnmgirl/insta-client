@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Home, Compass, User } from "react-feather";
+import { NavLink } from "react-router-dom";
 
 import Search from "./Search";
 
@@ -38,15 +39,28 @@ const StyledUser = styled(User)`
 
 const Wrapper = styled.div``;
 
+const StyledLink = styled(NavLink)`
+  color: ${(props) => props.theme.onPrimary};
+  &.active {
+    color: ${(props) => props.theme.secondary};
+  }
+`;
+
 function Header() {
   return (
     <Container>
       <h2>Insta</h2>
       <Search />
       <Wrapper>
-        <StyledHome />
-        <StyledCompass />
-        <StyledUser />
+        <StyledLink to="/">
+          <StyledHome />
+        </StyledLink>
+        <StyledLink to="/explore">
+          <StyledCompass />
+        </StyledLink>
+        <StyledLink to="/userId">
+          <StyledUser />
+        </StyledLink>
       </Wrapper>
     </Container>
   );
