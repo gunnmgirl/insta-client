@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Header from "./Header";
 import PostForm from "./PostForm";
 import Post from "./Post";
-import { getFeedPosts } from "../actions/postsActions";
+import { getFeedPosts, clearPageCounter } from "../actions/postsActions";
 
 const MainContainer = styled.div`
   min-height: 100vh;
@@ -20,11 +20,16 @@ const Container = styled.div`
 
 function Feed() {
   const posts = useSelector((state) => state.posts.posts);
+  const page = useSelector((state) => state.posts.page);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispatch(getFeedPosts({ page: 0 }));
+    dispatch(clearPageCounter());
   }, [dispatch]);
+
+  React.useEffect(() => {
+    dispatch(getFeedPosts({ page }));
+  }, [dispatch, page]);
 
   return (
     <MainContainer>

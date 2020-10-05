@@ -12,3 +12,16 @@ export const getFeedPosts = (payload) => {
     payload,
   };
 };
+
+export const getAllPosts = (payload) => {
+  return {
+    type: "GET_ALL_POSTS_REQUEST",
+    payload,
+  };
+};
+
+export const clearPageCounter = () => {
+  return {
+    type: "CLEAR_PAGE_COUNTER",
+  };
+};

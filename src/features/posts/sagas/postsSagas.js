@@ -26,9 +26,20 @@ function* getFeedPosts(action) {
   }
 }
 
+function* getAllPosts(action) {
+  try {
+    const data = yield call(queries.getAllPosts, action.payload);
+    const result = data.data;
+    yield put({ type: "GET_ALL_POSTS_SUCCESS", payload: result });
+  } catch (error) {
+    yield put({ type: "GET_ALL_POSTS_FAILURE", error });
+  }
+}
+
 const saga = function* () {
   yield takeLatest("CREATE_POST_REQUEST", createPost);
   yield takeLatest("GET_FEED_POSTS_REQUEST", getFeedPosts);
+  yield takeLatest("GET_ALL_POSTS_REQUEST", getAllPosts);
 };
 
 export default saga;

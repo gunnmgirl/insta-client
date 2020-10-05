@@ -8,4 +8,11 @@ function getFeedPosts(payload) {
   });
 }
 
-export default { getFeedPosts };
+function getAllPosts(payload) {
+  return axios.get("/post/explore", {
+    params: {
+      page: payload.page,
+    },
+  });
+}
+export default { getFeedPosts, getAllPosts };
