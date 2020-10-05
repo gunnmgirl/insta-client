@@ -1,4 +1,5 @@
 import axios from "axios";
+import history from "../routing/history";
 
 const instance = axios.create({
   baseURL: "http://localhost:4000",
@@ -21,6 +22,7 @@ instance.interceptors.response.use(
   (error) => {
     if (error.response.status === 401) {
       localStorage.removeItem("token");
+      history.push("/login");
     }
     return Promise.reject(error.response);
   }
