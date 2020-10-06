@@ -3,12 +3,31 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { getAllPosts, clearPageCounter } from "../actions/postsActions";
+import Header from "./Header";
 
-const PostImage = styled.div`
-  height: 41rem;
-  background-image: url(${(props) => props.imageUrl});
-  background-size: cover;
-  background-position: center;
+const Wrapper = styled.div`
+  min-height: 20rem;
+  max-height: 40rem;
+  min-width: 20rem;
+  max-width: 30rem;
+`;
+
+const StyledImage = styled.img`
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+`;
+
+const MainContainer = styled.div`
+  min-height: 100vh;
+  background-color: ${(props) => props.theme.surface};
+`;
+
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  grid-gap: 1rem;
+  padding: 2rem 16rem;
 `;
 
 function Explore() {
@@ -26,11 +45,16 @@ function Explore() {
   }, [dispatch, page]);
 
   return (
-    <div>
-      {posts.map((post) => (
-        <PostImage key={post.id} imageUrl={post.imageUrl}></PostImage>
-      ))}
-    </div>
+    <MainContainer>
+      <Header />
+      <Container>
+        {posts.map((post) => (
+          <Wrapper>
+            <StyledImage src={post.imageUrl} alt={post.caption} />
+          </Wrapper>
+        ))}
+      </Container>
+    </MainContainer>
   );
 }
 
