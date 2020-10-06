@@ -52,7 +52,7 @@ function Header() {
       <h2>Insta</h2>
       <Search />
       <Wrapper>
-        <StyledLink to="/">
+        <StyledLink to="/" exact>
           <StyledHome />
         </StyledLink>
         <StyledLink to="/explore">
