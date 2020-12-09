@@ -28,11 +28,13 @@ function PostForm() {
     initialValues: {
       imageUrl: "",
     },
-    onSubmit: (values) => {
+    onSubmit: (values, {resetForm}) => {
       dispatch(createPost(values, { formik }));
+      resetForm();
     },
     validationSchema,
   });
+  
   return (
     <StyledForm onSubmit={formik.handleSubmit}>
       <label htmlFor="imageUrl">Image URL</label>
