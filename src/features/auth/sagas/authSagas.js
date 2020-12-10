@@ -10,6 +10,7 @@ function* signup(action) {
     const result = data.data;
     formik.setSubmitting(false);
     localStorage.setItem("token", result.token);
+    localStorage.setItem("userId", result.user.id);
     yield put({ type: "SIGNUP_SUCCESS" });
     history.push("/");
   } catch (error) {
@@ -26,6 +27,7 @@ function* login(action) {
     const result = data.data;
     formik.setSubmitting(false);
     localStorage.setItem("token", result.token);
+    localStorage.setItem("userId", result.user.id);
     yield put({ type: "LOGIN_SUCCESS" });
     history.push("/");
   } catch (error) {

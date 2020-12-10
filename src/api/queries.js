@@ -15,4 +15,13 @@ function getAllPosts(payload) {
     },
   });
 }
-export default { getFeedPosts, getAllPosts };
+
+function getUserById(payload) {
+  return axios.get(`/user/:${payload}`, {
+    params: {
+      userId: payload.userId,
+    },
+  });
+}
+
+export default { getFeedPosts, getAllPosts, getUserById };
