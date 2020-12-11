@@ -1,9 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Heart, MessageCircle, Bookmark } from "react-feather";
-import { useDispatch, useSelector } from "react-redux";
-
-import { getUserById } from "../../users/actions/usersActions";
 
 const MainContainer = styled.div`
   width: 38rem;
@@ -66,21 +63,13 @@ const Options = styled.div`
 `;
 
 function Post({ post }) {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.users.user);
-  const { userId } = post;
-
-  React.useEffect(() => {
-    dispatch(getUserById({ userId: userId }));
-  }, [dispatch, userId]);
-
   return (
     <MainContainer>
       <Header>
         <ProfileImage />
         <Wrapper>
           <span>
-            {user.firstName} {user.lastName}
+            {post.user.firstName} {post.user.lastName}
           </span>
           <span>{post.location}</span>
         </Wrapper>
