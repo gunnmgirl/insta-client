@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Heart, MessageCircle, Bookmark } from "react-feather";
+import { useDispatch } from "react-redux";
+
+import { heartPost } from "../actions/postsActions";
 
 const MainContainer = styled.div`
   width: 38rem;
@@ -63,6 +66,8 @@ const Options = styled.div`
 `;
 
 function Post({ post }) {
+  const dispatch = useDispatch();
+
   return (
     <MainContainer>
       <Header>
@@ -76,7 +81,7 @@ function Post({ post }) {
       </Header>
       <PostImage imageUrl={post.imageUrl} />
       <Options>
-        <StyledHeart />
+        <StyledHeart onClick={() => dispatch(heartPost({ postId: post.id }))} />
         <StyledMessageCircle />
         <StyledBookmark />
       </Options>

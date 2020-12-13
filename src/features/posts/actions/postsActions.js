@@ -25,3 +25,10 @@ export const clearPageCounter = () => {
     type: "CLEAR_PAGE_COUNTER",
   };
 };
+
+export const heartPost = (payload) => {
+  return {
+    type: "HEART_POST_REQUEST",
+    payload,
+  };
+};

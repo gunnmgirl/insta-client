@@ -9,6 +9,24 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "CLEAR_PAGE_COUNTER":
       return { ...state, page: 0, posts: [] };
+    case "HEART_POST_FAILURE":
+      return {
+        ...state,
+        loading: false,
+        error: true,
+      };
+    case "HEART_POST_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        error: false,
+      };
+    case "HEART_POST_REQUEST":
+      return {
+        ...state,
+        loading: true,
+        error: false,
+      };
     case "CREATE_POST_FAILURE":
       return {
         ...state,

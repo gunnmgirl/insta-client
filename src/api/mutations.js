@@ -12,4 +12,8 @@ function createPost(payload) {
   return axios.post("/post/create", payload);
 }
 
-export default { signup, login, createPost };
+function heartPost(payload) {
+  return axios.post("/post/heart", payload);
+}
+
+export default { signup, login, createPost, heartPost };

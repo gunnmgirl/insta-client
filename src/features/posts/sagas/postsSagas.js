@@ -36,10 +36,21 @@ function* getAllPosts(action) {
   }
 }
 
+function* heartPost(action) {
+  try {
+    const data = yield call(mutations.heartPost, action.payload);
+    const result = data.data;
+    yield put({ type: "HEART_POST_SUCCESS", payload: result });
+  } catch (error) {
+    yield put({ type: "HEART_POST_FAILURE", error });
+  }
+}
+
 const saga = function* () {
   yield takeLatest("CREATE_POST_REQUEST", createPost);
   yield takeLatest("GET_FEED_POSTS_REQUEST", getFeedPosts);
   yield takeLatest("GET_ALL_POSTS_REQUEST", getAllPosts);
+  yield takeLatest("HEART_POST_REQUEST", heartPost);
 };
 
 export default saga;

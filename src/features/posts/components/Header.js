@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Home, Compass, User } from "react-feather";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Search from "./Search";
 
@@ -47,6 +48,8 @@ const StyledLink = styled(NavLink)`
 `;
 
 function Header() {
+  const me = useSelector((state) => state.users.me);
+
   return (
     <Container>
       <h2>Insta</h2>
@@ -58,7 +61,11 @@ function Header() {
         <StyledLink to="/explore">
           <StyledCompass />
         </StyledLink>
-        <StyledLink to="/userId">
+        <StyledLink
+          to={{
+            pathname: `/${me.id}`,
+          }}
+        >
           <StyledUser />
         </StyledLink>
       </Wrapper>
