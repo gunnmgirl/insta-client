@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Heart, MessageCircle, Bookmark } from "react-feather";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { heartPost } from "../actions/postsActions";
+import { heartPost, unheartPost } from "../actions/postsActions";
 
 const MainContainer = styled.div`
   width: 38rem;
@@ -47,11 +47,16 @@ const StyledMessageCircle = styled(MessageCircle)`
   }
 `;
 
-const StyledHeart = styled(Heart)`
+const HeartIcon = styled(Heart)`
   stroke-width: 2px;
   :hover {
     cursor: pointer;
   }
+  color: ${(props) => props.theme.onPrimary};
+`;
+
+const StyledHeartIcon = styled(HeartIcon)`
+  fill: ${(props) => props.theme.onPrimary};
 `;
 
 const StyledBookmark = styled(Bookmark)`
@@ -67,6 +72,7 @@ const Options = styled.div`
 
 function Post({ post }) {
   const dispatch = useDispatch();
+  const meId = useSelector((state) => state.users.me.id);
 
   return (
     <MainContainer>
@@ -81,7 +87,13 @@ function Post({ post }) {
       </Header>
       <PostImage imageUrl={post.imageUrl} />
       <Options>
-        <StyledHeart onClick={() => dispatch(heartPost({ postId: post.id }))} />
+        {post.hearts.find((heart) => heart.userId === meId) ? (
+          <StyledHeartIcon
+            onClick={() => dispatch(unheartPost({ postId: post.id }))}
+          />
+        ) : (
+          <HeartIcon onClick={() => dispatch(heartPost({ postId: post.id }))} />
+        )}
         <span>{post.hearts.length}</span>
         <StyledMessageCircle />
         <StyledBookmark />
