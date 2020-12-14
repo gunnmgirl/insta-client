@@ -87,7 +87,7 @@ function Post({ post }) {
       </Header>
       <PostImage imageUrl={post.imageUrl} />
       <Options>
-        {post.hearts.find((heart) => heart.userId === meId) ? (
+        {post.hearts.find((heart) => Number(heart.userId) === meId) ? (
           <StyledHeartIcon
             onClick={() => dispatch(unheartPost({ postId: post.id }))}
           />
