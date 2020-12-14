@@ -40,7 +40,11 @@ function* heartPost(action) {
   try {
     const data = yield call(mutations.heartPost, action.payload);
     const result = data.data;
-    yield put({ type: "HEART_POST_SUCCESS", payload: result });
+    yield put({
+      type: "HEART_POST_SUCCESS",
+      heart: result,
+      postId: action.payload.postId,
+    });
   } catch (error) {
     yield put({ type: "HEART_POST_FAILURE", error });
   }

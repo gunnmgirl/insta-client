@@ -20,6 +20,12 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         error: false,
+        posts: state.posts.map((post) => {
+          if (post.id === action.postId) {
+            post.hearts.push(action.heart);
+          }
+          return post;
+        }),
       };
     case "HEART_POST_REQUEST":
       return {
