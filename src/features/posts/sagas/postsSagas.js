@@ -54,7 +54,11 @@ function* unheartPost(action) {
   try {
     const data = yield call(mutations.unheartPost, action.payload);
     const result = data.data;
-    yield put({ type: "UNHEART_POST_SUCCESS", payload: result });
+    yield put({
+      type: "UNHEART_POST_SUCCESS",
+      heartId: result.heartId,
+      postId: action.payload.postId,
+    });
   } catch (error) {
     yield put({ type: "UNHEART_POST_FAILURE", error });
   }

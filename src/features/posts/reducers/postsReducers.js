@@ -33,6 +33,32 @@ export default (state = INITIAL_STATE, action) => {
         loading: true,
         error: false,
       };
+    case "UNHEART_POST_FAILURE":
+      return {
+        ...state,
+        loading: false,
+        error: true,
+      };
+    case "UNHEART_POST_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        posts: state.posts.map((post) => {
+          if (post.id === action.postId) {
+            post.hearts = post.hearts.filter(
+              (heart) => heart.id !== action.heartId
+            );
+          }
+          return post;
+        }),
+      };
+    case "UNHEART_POST_REQUEST":
+      return {
+        ...state,
+        loading: true,
+        error: false,
+      };
     case "CREATE_POST_FAILURE":
       return {
         ...state,
