@@ -32,3 +32,10 @@ export const heartPost = (payload) => {
     payload,
   };
 };
+
+export const unheartPost = (payload) => {
+  return {
+    type: "UNHEART_POST_REQUEST",
+    payload,
+  };
+};

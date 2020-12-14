@@ -46,11 +46,22 @@ function* heartPost(action) {
   }
 }
 
+function* unheartPost(action) {
+  try {
+    const data = yield call(mutations.unheartPost, action.payload);
+    const result = data.data;
+    yield put({ type: "UNHEART_POST_SUCCESS", payload: result });
+  } catch (error) {
+    yield put({ type: "UNHEART_POST_FAILURE", error });
+  }
+}
+
 const saga = function* () {
   yield takeLatest("CREATE_POST_REQUEST", createPost);
   yield takeLatest("GET_FEED_POSTS_REQUEST", getFeedPosts);
   yield takeLatest("GET_ALL_POSTS_REQUEST", getAllPosts);
   yield takeLatest("HEART_POST_REQUEST", heartPost);
+  yield takeLatest("UNHEART_POST_REQUEST", unheartPost);
 };
 
 export default saga;

@@ -82,6 +82,7 @@ function Post({ post }) {
       <PostImage imageUrl={post.imageUrl} />
       <Options>
         <StyledHeart onClick={() => dispatch(heartPost({ postId: post.id }))} />
+        <span>{post.hearts.length}</span>
         <StyledMessageCircle />
         <StyledBookmark />
       </Options>
