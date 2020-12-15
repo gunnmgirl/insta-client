@@ -71,6 +71,37 @@ const Options = styled.div`
   padding: 1rem 1rem;
 `;
 
+const StyledButton = styled.button`
+  background-color: ${(props) => props.theme.secondary};
+  color: ${(props) => props.theme.primary};
+  border: 2px solid ${(props) => props.theme.secondary};
+  border-radius: 10px;
+  width: 7rem;
+  height: 1.8rem;
+  font-size: 1rem;
+  margin: 0.6rem 0;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const StyledTextare = styled.textarea`
+  resize: none;
+`;
+
+const Comments = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Comment = styled.div``;
+
 function Post({ post }) {
   const dispatch = useDispatch();
   const meId = useSelector((state) => state.users.me.id);
@@ -79,9 +110,10 @@ function Post({ post }) {
     initialValues: {
       comment: "",
     },
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       const payload = { comment: values.comment, postId: post.id };
       dispatch(addComment(payload, { formik }));
+      resetForm();
     },
   });
 
@@ -107,24 +139,30 @@ function Post({ post }) {
         )}
         <span>{post.hearts.length}</span>
         <StyledMessageCircle />
+        <span>{post.comments.length}</span>
         <StyledBookmark />
       </Options>
-      <form onSubmit={formik.handleSubmit}>
-        <textarea
+      <StyledForm onSubmit={formik.handleSubmit}>
+        <StyledTextare
           name="comment"
           id="comment"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.comment}
         />
-        <button
+        <StyledButton
           type="submit"
           disabled={formik.isSubmitting}
           onClick={formik.handleSubmit}
         >
           Comment
-        </button>
-      </form>
+        </StyledButton>
+      </StyledForm>
+      <Comments>
+        {post.comments.map((comment) => (
+          <Comment key={comment.id}>{comment.body}</Comment>
+        ))}
+      </Comments>
     </MainContainer>
   );
 }
