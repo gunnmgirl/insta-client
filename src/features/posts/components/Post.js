@@ -2,8 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { Heart, MessageCircle, Bookmark } from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
+import { useFormik } from "formik";
 
-import { heartPost, unheartPost } from "../actions/postsActions";
+import { heartPost, unheartPost, addComment } from "../actions/postsActions";
 
 const MainContainer = styled.div`
   width: 38rem;
@@ -74,6 +75,16 @@ function Post({ post }) {
   const dispatch = useDispatch();
   const meId = useSelector((state) => state.users.me.id);
 
+  const formik = useFormik({
+    initialValues: {
+      comment: "",
+    },
+    onSubmit: (values) => {
+      const payload = { comment: values.comment, postId: post.id };
+      dispatch(addComment(payload, { formik }));
+    },
+  });
+
   return (
     <MainContainer>
       <Header>
@@ -98,6 +109,22 @@ function Post({ post }) {
         <StyledMessageCircle />
         <StyledBookmark />
       </Options>
+      <form onSubmit={formik.handleSubmit}>
+        <textarea
+          name="comment"
+          id="comment"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.comment}
+        />
+        <button
+          type="submit"
+          disabled={formik.isSubmitting}
+          onClick={formik.handleSubmit}
+        >
+          Comment
+        </button>
+      </form>
     </MainContainer>
   );
 }

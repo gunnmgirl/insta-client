@@ -9,6 +9,22 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "CLEAR_PAGE_COUNTER":
       return { ...state, page: 0, posts: [] };
+    case "ADD_COMMENT_FAILURE":
+      return { ...state, loading: false, error: true };
+    case "ADD_COMMENT_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        posts: state.posts.map((post) => {
+          if (post.id === action.postId) {
+            post.comments.push(action.comment);
+          }
+          return post;
+        }),
+      };
+    case "ADD_COMMENT_REQUEST":
+      return { ...state, loading: true, error: false };
     case "HEART_POST_FAILURE":
       return {
         ...state,

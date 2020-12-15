@@ -64,12 +64,30 @@ function* unheartPost(action) {
   }
 }
 
+function* addComment(action) {
+  const { formik } = action.meta;
+  try {
+    const data = yield call(mutations.addComment, action.payload);
+    const result = data.data;
+    formik.setSubmitting(false);
+    yield put({
+      type: "ADD_COMMENT_SUCCESS",
+      postId: action.payload.postId,
+      comment: result,
+    });
+  } catch (error) {
+    formik.setSubmitting(false);
+    yield put({ type: "ADD_COMMENT_FAILURE", error });
+  }
+}
+
 const saga = function* () {
   yield takeLatest("CREATE_POST_REQUEST", createPost);
   yield takeLatest("GET_FEED_POSTS_REQUEST", getFeedPosts);
   yield takeLatest("GET_ALL_POSTS_REQUEST", getAllPosts);
   yield takeLatest("HEART_POST_REQUEST", heartPost);
   yield takeLatest("UNHEART_POST_REQUEST", unheartPost);
+  yield takeLatest("ADD_COMMENT_REQUEST", addComment);
 };
 
 export default saga;

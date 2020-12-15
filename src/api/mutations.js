@@ -20,4 +20,15 @@ function unheartPost(payload) {
   return axios.post("/post/unheart", payload);
 }
 
-export default { signup, login, createPost, heartPost, unheartPost };
+function addComment(payload) {
+  return axios.post("/post/addComment", payload);
+}
+
+export default {
+  signup,
+  login,
+  createPost,
+  heartPost,
+  unheartPost,
+  addComment,
+};

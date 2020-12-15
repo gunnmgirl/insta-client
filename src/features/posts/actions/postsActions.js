@@ -39,3 +39,11 @@ export const unheartPost = (payload) => {
     payload,
   };
 };
+
+export const addComment = (payload, meta) => {
+  return {
+    type: "ADD_COMMENT_REQUEST",
+    payload,
+    meta,
+  };
+};
