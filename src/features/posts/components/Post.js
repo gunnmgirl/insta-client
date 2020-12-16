@@ -105,13 +105,18 @@ const Comment = styled.div``;
 function Post({ post }) {
   const dispatch = useDispatch();
   const meId = useSelector((state) => state.users.me.id);
+  const meUsername = useSelector((state) => state.users.me.username);
 
   const formik = useFormik({
     initialValues: {
       comment: "",
     },
     onSubmit: (values, { resetForm }) => {
-      const payload = { comment: values.comment, postId: post.id };
+      const payload = {
+        comment: values.comment,
+        postId: post.id,
+        meUsername: meUsername,
+      };
       dispatch(addComment(payload, { formik }));
       resetForm();
     },
@@ -160,7 +165,10 @@ function Post({ post }) {
       </StyledForm>
       <Comments>
         {post.comments.map((comment) => (
-          <Comment key={comment.id}>{comment.body}</Comment>
+          <Comment key={comment.id}>
+            <span>{comment.user.username}</span>
+            <div>{comment.body}</div>
+          </Comment>
         ))}
       </Comments>
     </MainContainer>

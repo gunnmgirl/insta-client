@@ -74,6 +74,7 @@ function* addComment(action) {
       type: "ADD_COMMENT_SUCCESS",
       postId: action.payload.postId,
       comment: result,
+      meUsername: action.payload.meUsername,
     });
   } catch (error) {
     formik.setSubmitting(false);
