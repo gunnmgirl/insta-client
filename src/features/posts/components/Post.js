@@ -4,7 +4,12 @@ import { Heart, MessageCircle, Bookmark } from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 
-import { heartPost, unheartPost, addComment } from "../actions/postsActions";
+import {
+  heartPost,
+  unheartPost,
+  addComment,
+  getPostComments,
+} from "../actions/postsActions";
 
 const MainContainer = styled.div`
   width: 38rem;
@@ -100,12 +105,39 @@ const Comments = styled.div`
   flex-direction: column;
 `;
 
-const Comment = styled.div``;
+const Comment = styled.div`
+  border: 1px solid ${(props) => props.theme.border};
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledSpan = styled.span`
+  color: ${(props) => props.theme.secondary};
+  margin: 0 0.2rem;
+`;
+
+const CommentBody = styled.div`
+  justify-self: center;
+  align-self: center;
+  color: ${(props) => props.theme.onPrimary};
+  margin: 1rem 0;
+`;
+
+const ShowCommentsButton = styled.button`
+  color: ${(props) => props.theme.onPrimary};
+  border: 1px solid ${(props) => props.theme.border};
+  margin: 0 auto;
+  display: block;
+  :hover {
+    cursor: pointer;
+  }
+`;
 
 function Post({ post }) {
   const dispatch = useDispatch();
   const meId = useSelector((state) => state.users.me.id);
   const meUsername = useSelector((state) => state.users.me.username);
+  const [showComments, setShowComments] = React.useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -163,14 +195,26 @@ function Post({ post }) {
           Comment
         </StyledButton>
       </StyledForm>
-      <Comments>
-        {post.comments.map((comment) => (
-          <Comment key={comment.id}>
-            <span>{comment.user.username}</span>
-            <div>{comment.body}</div>
-          </Comment>
-        ))}
-      </Comments>
+      {post.comments.length > 0 ? (
+        <ShowCommentsButton
+          onClick={() => {
+            dispatch(getPostComments({ postId: post.postId }));
+            setShowComments(true);
+          }}
+        >
+          Show all comments
+        </ShowCommentsButton>
+      ) : null}
+      {showComments ? (
+        <Comments>
+          {post.comments.map((comment) => (
+            <Comment key={comment.id}>
+              <StyledSpan>{comment.user.username}</StyledSpan>
+              <CommentBody>{comment.body}</CommentBody>
+            </Comment>
+          ))}
+        </Comments>
+      ) : null}
     </MainContainer>
   );
 }

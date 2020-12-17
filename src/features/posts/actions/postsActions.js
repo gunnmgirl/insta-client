@@ -13,6 +13,13 @@ export const getFeedPosts = (payload) => {
   };
 };
 
+export const getPostComments = (payload) => {
+  return {
+    type: "GET_POST_COMMENTS_REQUEST",
+    payload,
+  };
+};
+
 export const getAllPosts = (payload) => {
   return {
     type: "GET_ALL_POSTS_REQUEST",
