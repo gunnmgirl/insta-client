@@ -82,6 +82,19 @@ function* addComment(action) {
   }
 }
 
+function* deleteComment(action) {
+  try {
+    yield call(mutations.deleteComment, action.payload);
+    yield put({
+      type: "DELETE_COMMENT_SUCCESS",
+      postId: action.payload.postId,
+      commentId: action.payload.commentId,
+    });
+  } catch (error) {
+    yield put({ type: "DELETE_COMMENT_FAILURE", error });
+  }
+}
+
 const saga = function* () {
   yield takeLatest("CREATE_POST_REQUEST", createPost);
   yield takeLatest("GET_FEED_POSTS_REQUEST", getFeedPosts);
@@ -89,6 +102,7 @@ const saga = function* () {
   yield takeLatest("HEART_POST_REQUEST", heartPost);
   yield takeLatest("UNHEART_POST_REQUEST", unheartPost);
   yield takeLatest("ADD_COMMENT_REQUEST", addComment);
+  yield takeLatest("DELETE_COMMENT_REQUEST", deleteComment);
 };
 
 export default saga;

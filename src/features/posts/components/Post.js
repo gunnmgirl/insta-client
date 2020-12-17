@@ -9,6 +9,7 @@ import {
   unheartPost,
   addComment,
   getPostComments,
+  deleteComment,
 } from "../actions/postsActions";
 
 const MainContainer = styled.div`
@@ -23,6 +24,11 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   padding: 1rem 1rem;
+`;
+
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const ProfileImage = styled.div`
@@ -209,7 +215,23 @@ function Post({ post }) {
         <Comments>
           {post.comments.map((comment) => (
             <Comment key={comment.id}>
-              <StyledSpan>{comment.user.username}</StyledSpan>
+              <Container>
+                <StyledSpan>{comment.user.username}</StyledSpan>
+                {comment.user.username === meUsername ? (
+                  <StyledSpan
+                    onClick={() =>
+                      dispatch(
+                        deleteComment({
+                          commentId: comment.id,
+                          postId: post.id,
+                        })
+                      )
+                    }
+                  >
+                    Delete
+                  </StyledSpan>
+                ) : null}
+              </Container>
               <CommentBody>{comment.body}</CommentBody>
             </Comment>
           ))}

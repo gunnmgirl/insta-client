@@ -21,7 +21,26 @@ export default (state = INITIAL_STATE, action) => {
             post.comments.push({
               body: action.comment.body,
               user: action.meUsername,
+              id: post.comments[post.comments.length - 1] + 1,
             });
+          }
+          return post;
+        }),
+      };
+    case "DELETE_COMMENT_REQUEST":
+      return { ...state, loading: true, error: false };
+    case "DELETE_COMMENT_FAILURE":
+      return { ...state, loading: false, error: true };
+    case "DELETE_COMMENT_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        posts: state.posts.map((post) => {
+          if (post.id === action.postId) {
+            post.comments = post.comments.filter(
+              (comment) => comment.id !== action.commentId
+            );
           }
           return post;
         }),

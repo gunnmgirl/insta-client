@@ -54,3 +54,10 @@ export const addComment = (payload, meta) => {
     meta,
   };
 };
+
+export const deleteComment = (payload) => {
+  return {
+    type: "DELETE_COMMENT_REQUEST",
+    payload,
+  };
+};
