@@ -4,3 +4,10 @@ export const getUserById = (payload) => {
     payload,
   };
 };
+
+export const getMyPosts = (payload) => {
+  return {
+    type: "GET_MY_POSTS_REQUEST",
+    payload,
+  };
+};

@@ -135,6 +135,7 @@ export default (state = INITIAL_STATE, action) => {
         loading: true,
         error: false,
       };
+
     case "GET_ALL_POSTS_FAILURE":
       return {
         ...state,

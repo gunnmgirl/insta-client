@@ -29,6 +29,25 @@ export default (state = INITIAL_STATE, action) => {
         error: false,
         me: action.payload,
       };
+    case "GET_MY_POSTS_REQUEST":
+      return {
+        ...state,
+        error: false,
+        loading: true,
+      };
+    case "GET_MY_POSTS_FAILURE":
+      return {
+        ...state,
+        error: true,
+        loading: false,
+      };
+    case "GET_MY_POSTS_SUCCESS":
+      return {
+        ...state,
+        error: false,
+        loading: false,
+        me: { ...state.me, posts: [...action.payload] },
+      };
     default:
       return state;
   }

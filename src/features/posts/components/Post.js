@@ -36,6 +36,9 @@ const ProfileImage = styled.div`
   height: 2.4rem;
   width: 2.4rem;
   border-radius: 50%;
+  background-image: url(${(props) => props.imageUrl});
+  background-size: cover;
+  background-position: center;
 `;
 
 const Wrapper = styled.div`
@@ -163,7 +166,7 @@ function Post({ post }) {
   return (
     <MainContainer>
       <Header>
-        <ProfileImage />
+        <ProfileImage imageUrl={post.user.profileImage} />
         <Wrapper>
           <span>
             {post.user.firstName} {post.user.lastName}

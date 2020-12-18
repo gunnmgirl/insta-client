@@ -16,12 +16,16 @@ function getAllPosts(payload) {
   });
 }
 
+function getMyPosts(payload) {
+  return axios.get(`/user/posts/${payload}`);
+}
+
 function getUserById(payload) {
-  return axios.get(`/user/:${payload}`, {
+  return axios.get(`/user/${payload}`, {
     params: {
       userId: payload.userId,
     },
   });
 }
 
-export default { getFeedPosts, getAllPosts, getUserById };
+export default { getFeedPosts, getAllPosts, getUserById, getMyPosts };
