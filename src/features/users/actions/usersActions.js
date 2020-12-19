@@ -11,3 +11,11 @@ export const getMyPosts = (payload) => {
     payload,
   };
 };
+
+export const editUser = (payload, meta) => {
+  return {
+    type: "EDIT_USER",
+    payload,
+    meta,
+  };
+};

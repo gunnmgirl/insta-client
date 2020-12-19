@@ -28,6 +28,10 @@ function deleteComment(payload) {
   return axios.post("/post/deleteComment", payload);
 }
 
+function editUser(payload) {
+  return axios.post("/user/edit", payload);
+}
+
 export default {
   signup,
   login,
@@ -36,4 +40,5 @@ export default {
   unheartPost,
   addComment,
   deleteComment,
+  editUser,
 };

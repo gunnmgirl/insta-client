@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
+import mutations from "../../../api/mutations";
 
 import queries from "../../../api/queries";
 
@@ -22,9 +23,20 @@ function* getMyPosts(action) {
   }
 }
 
+function* editUser(action) {
+  try {
+    const data = yield call(mutations.editUser, action.payload);
+    const result = data.data;
+    yield put({ type: "EDIT_USER_SUCCESS", payload: result });
+  } catch (error) {
+    yield put({ type: "EDIT_USER_FAILURE", error });
+  }
+}
+
 const saga = function* () {
   yield takeLatest("GET_USER_BY_ID_REQUEST", getUserById);
   yield takeLatest("GET_MY_POSTS_REQUEST", getMyPosts);
+  yield takeLatest("EDIT_USER_REQUEST", editUser);
 };
 
 export default saga;
