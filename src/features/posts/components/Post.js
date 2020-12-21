@@ -13,11 +13,16 @@ import {
 } from "../actions/postsActions";
 
 const MainContainer = styled.div`
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
   width: 38rem;
+`;
+
+const PostContainer = styled.div`
   border: 1px solid ${(props) => props.theme.border};
   border-radius: 3px;
   background-color: ${(props) => props.theme.primary};
-  margin: 1.5rem 0;
 `;
 
 const Header = styled.div`
@@ -134,8 +139,9 @@ const CommentBody = styled.div`
 
 const ShowCommentsButton = styled.button`
   color: ${(props) => props.theme.onPrimary};
-  border: 1px solid ${(props) => props.theme.border};
-  margin: 0 auto;
+  background-color: ${(props) => props.theme.surface};
+  border: none;
+  margin: 0.2rem auto;
   display: block;
   :hover {
     cursor: pointer;
@@ -165,80 +171,93 @@ function Post({ post }) {
 
   return (
     <MainContainer>
-      <Header>
-        <ProfileImage imageUrl={post.user.profileImage} />
-        <Wrapper>
-          <span>
-            {post.user.firstName} {post.user.lastName}
-          </span>
-          <span>{post.location}</span>
-        </Wrapper>
-      </Header>
-      <PostImage imageUrl={post.imageUrl} />
-      <Options>
-        {post.hearts.find((heart) => Number(heart.userId) === meId) ? (
-          <StyledHeartIcon
-            onClick={() => dispatch(unheartPost({ postId: post.id }))}
+      <PostContainer>
+        <Header>
+          <ProfileImage imageUrl={post.user.profileImage} />
+          <Wrapper>
+            <span>
+              {post.user.firstName} {post.user.lastName}
+            </span>
+            <span>{post.location}</span>
+          </Wrapper>
+        </Header>
+        <PostImage imageUrl={post.imageUrl} />
+        <Options>
+          {post.hearts.find((heart) => Number(heart.userId) === meId) ? (
+            <StyledHeartIcon
+              onClick={() => dispatch(unheartPost({ postId: post.id }))}
+            />
+          ) : (
+            <HeartIcon
+              onClick={() => dispatch(heartPost({ postId: post.id }))}
+            />
+          )}
+          <span>{post.hearts.length}</span>
+          <StyledMessageCircle />
+          <span>{post.comments.length}</span>
+          <StyledBookmark />
+        </Options>
+        <StyledForm onSubmit={formik.handleSubmit}>
+          <StyledTextare
+            name="comment"
+            id="comment"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.comment}
           />
-        ) : (
-          <HeartIcon onClick={() => dispatch(heartPost({ postId: post.id }))} />
-        )}
-        <span>{post.hearts.length}</span>
-        <StyledMessageCircle />
-        <span>{post.comments.length}</span>
-        <StyledBookmark />
-      </Options>
-      <StyledForm onSubmit={formik.handleSubmit}>
-        <StyledTextare
-          name="comment"
-          id="comment"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.comment}
-        />
-        <StyledButton
-          type="submit"
-          disabled={formik.isSubmitting}
-          onClick={formik.handleSubmit}
-        >
-          Comment
-        </StyledButton>
-      </StyledForm>
-      {post.comments.length > 0 ? (
-        <ShowCommentsButton
-          onClick={() => {
-            dispatch(getPostComments({ postId: post.postId }));
-            setShowComments(true);
-          }}
-        >
-          Show all comments
-        </ShowCommentsButton>
-      ) : null}
+          <StyledButton
+            type="submit"
+            disabled={formik.isSubmitting}
+            onClick={formik.handleSubmit}
+          >
+            Comment
+          </StyledButton>
+        </StyledForm>
+        {post.comments.length > 0 && !showComments ? (
+          <ShowCommentsButton
+            onClick={() => {
+              dispatch(getPostComments({ postId: post.postId }));
+              setShowComments(true);
+            }}
+          >
+            Show all comments...
+          </ShowCommentsButton>
+        ) : null}
+      </PostContainer>
       {showComments ? (
-        <Comments>
-          {post.comments.map((comment) => (
-            <Comment key={comment.id}>
-              <Container>
-                <StyledSpan>{comment.user.username}</StyledSpan>
-                {comment.user.username === meUsername ? (
-                  <StyledSpan
-                    onClick={() =>
-                      dispatch(
-                        deleteComment({
-                          commentId: comment.id,
-                          postId: post.id,
-                        })
-                      )
-                    }
-                  >
-                    Delete
-                  </StyledSpan>
-                ) : null}
-              </Container>
-              <CommentBody>{comment.body}</CommentBody>
-            </Comment>
-          ))}
-        </Comments>
+        <div>
+          <ShowCommentsButton
+            onClick={() => {
+              setShowComments(false);
+            }}
+          >
+            Hide comments
+          </ShowCommentsButton>
+          <Comments>
+            {post.comments.map((comment) => (
+              <Comment key={comment.id}>
+                <Container>
+                  <StyledSpan>{comment.user.username}</StyledSpan>
+                  {comment.user.username === meUsername ? (
+                    <StyledSpan
+                      onClick={() =>
+                        dispatch(
+                          deleteComment({
+                            commentId: comment.id,
+                            postId: post.id,
+                          })
+                        )
+                      }
+                    >
+                      Delete
+                    </StyledSpan>
+                  ) : null}
+                </Container>
+                <CommentBody>{comment.body}</CommentBody>
+              </Comment>
+            ))}
+          </Comments>
+        </div>
       ) : null}
     </MainContainer>
   );
