@@ -32,6 +32,10 @@ function editUser(payload) {
   return axios.post("/user/edit", payload);
 }
 
+function changePassword(payload) {
+  return axios.post("/user/changePassword", payload);
+}
+
 export default {
   signup,
   login,
@@ -41,4 +45,5 @@ export default {
   addComment,
   deleteComment,
   editUser,
+  changePassword,
 };

@@ -67,6 +67,25 @@ export default (state = INITIAL_STATE, action) => {
         loading: true,
         error: false,
       };
+    case "CHANGE_PASSWORD_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        me: { ...state.me, ...action.payload },
+      };
+    case "CHANGE_PASSWORD_FAILURE":
+      return {
+        ...state,
+        loading: false,
+        error: true,
+      };
+    case "CHANGE_PASSWORD_REQUEST":
+      return {
+        ...state,
+        loading: true,
+        error: false,
+      };
     default:
       return state;
   }

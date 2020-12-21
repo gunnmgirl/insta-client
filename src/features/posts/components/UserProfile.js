@@ -4,7 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { getMyPosts, editUser } from "../../users/actions/usersActions";
+import {
+  getMyPosts,
+  editUser,
+  changePasswordAction,
+} from "../../users/actions/usersActions";
 import Header from "./Header";
 
 const MainContainer = styled.div`
@@ -91,19 +95,27 @@ const WrapperRow = styled.div`
 function UserProfile() {
   const dispatch = useDispatch();
   const [edit, setEdit] = React.useState(false);
+  const [changePassword, setChangePassword] = React.useState(false);
   const me = useSelector((state) => state.users.me);
 
   React.useEffect(() => {
     dispatch(getMyPosts({ userId: me.id }));
   }, [dispatch, me.id]);
 
-  const validationSchema = Yup.object().shape({
+  const editValidationSchema = Yup.object().shape({
     firstName: Yup.string().required(),
     lastName: Yup.string().required(),
     username: Yup.string().required(),
   });
 
-  const formik = useFormik({
+  const changePasswordValidationSchema = Yup.object().shape({
+    oldPassword: Yup.string().required(),
+    newPassword: Yup.string()
+      .min(5, "Password must be at least 5 characters long")
+      .required("Password is required"),
+  });
+
+  const formikEdit = useFormik({
     initialValues: {
       firstName: me.firstName,
       lastName: me.lastName,
@@ -111,14 +123,30 @@ function UserProfile() {
       profileImage: me.profileImage,
     },
     onSubmit: (values) => {
-      dispatch(editUser(values, { formik }));
-      onCancel();
+      dispatch(editUser(values, { formikEdit }));
+      onEditCancel();
     },
-    validationSchema,
+    editValidationSchema,
   });
 
-  function onCancel() {
+  const formikChangePassword = useFormik({
+    initialValues: {
+      oldPassword: "",
+      newPassword: "",
+    },
+    onSubmit: (values) => {
+      dispatch(changePasswordAction(values, { formikChangePassword }));
+      onChangePasswordCancel();
+    },
+    changePasswordValidationSchema,
+  });
+
+  function onEditCancel() {
     setEdit(false);
+  }
+
+  function onChangePasswordCancel() {
+    setChangePassword(false);
   }
 
   return (
@@ -128,16 +156,49 @@ function UserProfile() {
         <UserInfo>
           <ProfileImage imageUrl={me.profileImage} />
           <Wrapper>
-            {edit ? (
+            {changePassword ? (
+              <StyledForm>
+                <StyledLabel htmlFor="oldPassword">Old password</StyledLabel>
+                <StyledInput
+                  type="password"
+                  name="oldPassword"
+                  id="oldPassword"
+                  onChange={formikChangePassword.handleChange}
+                  onBlur={formikChangePassword.handleBlur}
+                  value={formikChangePassword.values.oldPassword}
+                  autoFocus
+                />
+                <StyledLabel htmlFor="newPassword">New password</StyledLabel>
+                <StyledInput
+                  type="password"
+                  name="newPassword"
+                  id="newPassword"
+                  onChange={formikChangePassword.handleChange}
+                  onBlur={formikChangePassword.handleBlur}
+                  value={formikChangePassword.values.newPassword}
+                />
+                <WrapperRow>
+                  <StyledButton
+                    type="submit"
+                    onClick={formikChangePassword.handleSubmit}
+                  >
+                    Change
+                  </StyledButton>
+                  <StyledButton type="submit" onClick={onChangePasswordCancel}>
+                    Cancel
+                  </StyledButton>
+                </WrapperRow>
+              </StyledForm>
+            ) : edit ? (
               <StyledForm>
                 <StyledLabel htmlFor="username">Username</StyledLabel>
                 <StyledInput
                   type="text"
                   name="username"
                   id="username"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.username}
+                  onChange={formikEdit.handleChange}
+                  onBlur={formikEdit.handleBlur}
+                  value={formikEdit.values.username}
                   autoFocus
                 />
                 <StyledLabel htmlFor="firstName">First name</StyledLabel>
@@ -145,42 +206,47 @@ function UserProfile() {
                   type="text"
                   name="firstName"
                   id="firstName"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.firstName}
+                  onChange={formikEdit.handleChange}
+                  onBlur={formikEdit.handleBlur}
+                  value={formikEdit.values.firstName}
                 />
                 <StyledLabel htmlFor="lastName">Last name</StyledLabel>
                 <StyledInput
                   type="text"
                   name="lastName"
                   id="lastName"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.lastName}
+                  onChange={formikEdit.handleChange}
+                  onBlur={formikEdit.handleBlur}
+                  value={formikEdit.values.lastName}
                 />
                 <StyledLabel htmlFor="profileImage">Profile image</StyledLabel>
                 <StyledInput
                   type="text"
                   name="profileImage"
                   id="profileImage"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.profileImage}
+                  onChange={formikEdit.handleChange}
+                  onBlur={formikEdit.handleBlur}
+                  value={formikEdit.values.profileImage}
                 />
                 <WrapperRow>
-                  <StyledButton type="submit" onClick={formik.handleSubmit}>
+                  <StyledButton type="submit" onClick={formikEdit.handleSubmit}>
                     Edit
                   </StyledButton>
-                  <StyledButton type="submit" onClick={onCancel}>
+                  <StyledButton type="submit" onClick={onEditCancel}>
                     Cancel
                   </StyledButton>
                 </WrapperRow>
               </StyledForm>
             ) : (
               <Wrapper>
-                <StyledButton onClick={() => setEdit(true)}>
-                  Edit Profile
-                </StyledButton>
+                <WrapperRow>
+                  <StyledButton onClick={() => setEdit(true)}>
+                    Edit Profile
+                  </StyledButton>
+                  <StyledButton onClick={() => setChangePassword(true)}>
+                    Change password
+                  </StyledButton>
+                </WrapperRow>
                 <span>{me.username}</span>
                 <span>
                   {me.firstName} {me.lastName}

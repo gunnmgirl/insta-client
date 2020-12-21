@@ -19,3 +19,11 @@ export const editUser = (payload, meta) => {
     meta,
   };
 };
+
+export const changePasswordAction = (payload, meta) => {
+  return {
+    type: "CHANGE_PASSWORD_REQUEST",
+    payload,
+    meta,
+  };
+};
