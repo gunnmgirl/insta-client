@@ -14,7 +14,7 @@ export const getMyPosts = (payload) => {
 
 export const editUser = (payload, meta) => {
   return {
-    type: "EDIT_USER",
+    type: "EDIT_USER_REQUEST",
     payload,
     meta,
   };

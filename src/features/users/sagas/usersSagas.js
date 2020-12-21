@@ -24,11 +24,15 @@ function* getMyPosts(action) {
 }
 
 function* editUser(action) {
+  const { formik } = action.meta;
   try {
     const data = yield call(mutations.editUser, action.payload);
     const result = data.data;
+    formik.setSubmitting(false);
     yield put({ type: "EDIT_USER_SUCCESS", payload: result });
   } catch (error) {
+    formik.setSubmitting(false);
+    formik.setFieldError("username", error.data);
     yield put({ type: "EDIT_USER_FAILURE", error });
   }
 }

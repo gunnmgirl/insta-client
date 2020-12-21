@@ -48,6 +48,25 @@ export default (state = INITIAL_STATE, action) => {
         loading: false,
         me: { ...state.me, posts: [...action.payload] },
       };
+    case "EDIT_USER_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        me: { ...state.me, ...action.payload },
+      };
+    case "EDIT_USER_FAILURE":
+      return {
+        ...state,
+        loading: false,
+        error: true,
+      };
+    case "EDIT_USER_REQUEST":
+      return {
+        ...state,
+        loading: true,
+        error: false,
+      };
     default:
       return state;
   }

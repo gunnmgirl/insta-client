@@ -72,6 +72,8 @@ function UserProfile() {
   const [edit, setEdit] = React.useState(false);
   const me = useSelector((state) => state.users.me);
 
+  console.log(me);
+
   React.useEffect(() => {
     dispatch(getMyPosts({ userId: me.id }));
   }, [dispatch, me.id]);
@@ -90,12 +92,12 @@ function UserProfile() {
     },
     onSubmit: (values, { resetForm }) => {
       dispatch(editUser(values, { formik }));
-      resetForm();
+      onCancel();
     },
     validationSchema,
   });
 
-  function handleonBlur() {
+  function onCancel() {
     setEdit(false);
   }
 
@@ -110,7 +112,7 @@ function UserProfile() {
               Edit Profile
             </StyledButton>
             {edit ? (
-              <StyledForm onSubmit={formik.handleSubmit} onBlur={handleonBlur}>
+              <StyledForm>
                 <StyledInput
                   type="text"
                   name="username"
@@ -136,6 +138,12 @@ function UserProfile() {
                   onBlur={formik.handleBlur}
                   value={formik.values.lastName}
                 />
+                <StyledButton type="submit" onClick={formik.handleSubmit}>
+                  Edit
+                </StyledButton>
+                <StyledButton type="submit" onClick={onCancel}>
+                  Cancel
+                </StyledButton>
               </StyledForm>
             ) : (
               <Wrapper>
