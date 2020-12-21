@@ -25,7 +25,11 @@ const ProfileImage = styled.div`
 
 const StyledInput = styled.input`
   border: 1px solid ${(props) => props.theme.border};
+  border-radius: 3px;
   background-color: ${(props) => props.theme.primary};
+  margin: 0.2rem 0;
+  height: 1.4rem;
+  font-family: "Roboto", sans-serif;
 `;
 
 const Container = styled.div`
@@ -56,10 +60,18 @@ const Wrapper = styled.div`
 `;
 
 const StyledButton = styled.button`
-  border: ${(props) => props.theme.border};
+  border: 1px solid ${(props) => props.theme.secondary};
+  border-radius: 10px;
+  background-color: ${(props) => props.theme.surface};
+  color: ${(props) => props.theme.secondary};
   height: 1.8rem;
   font-size: 1rem;
+  margin: 0 0.2rem;
   margin-bottom: 2rem;
+  margin-top: 0.4rem;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const StyledForm = styled.form`
@@ -67,12 +79,19 @@ const StyledForm = styled.form`
   flex-direction: column;
 `;
 
+const StyledLabel = styled.label`
+  font-size: 1rem;
+`;
+
+const WrapperRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 function UserProfile() {
   const dispatch = useDispatch();
   const [edit, setEdit] = React.useState(false);
   const me = useSelector((state) => state.users.me);
-
-  console.log(me);
 
   React.useEffect(() => {
     dispatch(getMyPosts({ userId: me.id }));
@@ -89,8 +108,9 @@ function UserProfile() {
       firstName: me.firstName,
       lastName: me.lastName,
       username: me.username,
+      profileImage: me.profileImage,
     },
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: (values) => {
       dispatch(editUser(values, { formik }));
       onCancel();
     },
@@ -108,11 +128,9 @@ function UserProfile() {
         <UserInfo>
           <ProfileImage imageUrl={me.profileImage} />
           <Wrapper>
-            <StyledButton onClick={() => setEdit(true)}>
-              Edit Profile
-            </StyledButton>
             {edit ? (
               <StyledForm>
+                <StyledLabel htmlFor="username">Username</StyledLabel>
                 <StyledInput
                   type="text"
                   name="username"
@@ -122,6 +140,7 @@ function UserProfile() {
                   value={formik.values.username}
                   autoFocus
                 />
+                <StyledLabel htmlFor="firstName">First name</StyledLabel>
                 <StyledInput
                   type="text"
                   name="firstName"
@@ -130,6 +149,7 @@ function UserProfile() {
                   onBlur={formik.handleBlur}
                   value={formik.values.firstName}
                 />
+                <StyledLabel htmlFor="lastName">Last name</StyledLabel>
                 <StyledInput
                   type="text"
                   name="lastName"
@@ -138,15 +158,29 @@ function UserProfile() {
                   onBlur={formik.handleBlur}
                   value={formik.values.lastName}
                 />
-                <StyledButton type="submit" onClick={formik.handleSubmit}>
-                  Edit
-                </StyledButton>
-                <StyledButton type="submit" onClick={onCancel}>
-                  Cancel
-                </StyledButton>
+                <StyledLabel htmlFor="profileImage">Profile image</StyledLabel>
+                <StyledInput
+                  type="text"
+                  name="profileImage"
+                  id="profileImage"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.profileImage}
+                />
+                <WrapperRow>
+                  <StyledButton type="submit" onClick={formik.handleSubmit}>
+                    Edit
+                  </StyledButton>
+                  <StyledButton type="submit" onClick={onCancel}>
+                    Cancel
+                  </StyledButton>
+                </WrapperRow>
               </StyledForm>
             ) : (
               <Wrapper>
+                <StyledButton onClick={() => setEdit(true)}>
+                  Edit Profile
+                </StyledButton>
                 <span>{me.username}</span>
                 <span>
                   {me.firstName} {me.lastName}
