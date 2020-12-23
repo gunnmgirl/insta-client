@@ -107,6 +107,7 @@ function LogIn() {
                 type="email"
                 name="email"
                 id="email"
+                data-cy="email-input"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
@@ -119,17 +120,21 @@ function LogIn() {
                 type="password"
                 name="password"
                 id="password"
+                data-cy="password-input"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
               />
               {formik.errors.password && formik.touched.password ? (
-                <StyledText>{formik.errors.password}</StyledText>
+                <StyledText data-cy="error-message">
+                  {formik.errors.password}
+                </StyledText>
               ) : null}
               <StyledButton
                 type="submit"
                 disabled={formik.isSubmitting}
                 onClick={formik.handleSubmit}
+                data-cy="log-in-button"
               >
                 Log in
               </StyledButton>

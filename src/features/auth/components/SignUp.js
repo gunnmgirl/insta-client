@@ -121,7 +121,9 @@ function SignUp() {
             <StyledHeader>Sign up</StyledHeader>
             <Wrapper>
               <p>Already have an account?</p>
-              <StyledLink to="/login">Log in</StyledLink>
+              <StyledLink to="/login" data-cy="log-in-link">
+                Log in
+              </StyledLink>
             </Wrapper>
             <StyledForm onSubmit={formik.handleSubmit}>
               <label htmlFor="firstName">First Name</label>

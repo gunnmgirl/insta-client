@@ -32,7 +32,7 @@ function Feed() {
   }, [dispatch, page]);
 
   return (
-    <MainContainer>
+    <MainContainer data-cy="feed">
       <Header />
       <Container>
         <PostForm />
