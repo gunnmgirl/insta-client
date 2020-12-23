@@ -19,9 +19,8 @@ export default (state = INITIAL_STATE, action) => {
         posts: state.posts.map((post) => {
           if (post.id === action.postId) {
             post.comments.push({
-              body: action.comment.body,
-              user: action.meUsername,
-              id: post.comments[post.comments.length - 1] + 1,
+              ...action.comment,
+              user: { username: action.meUsername },
             });
           }
           return post;
