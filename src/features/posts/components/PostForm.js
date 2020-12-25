@@ -2,7 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { createPost } from "../actions/postsActions";
 
@@ -19,6 +19,7 @@ const StyledInput = styled.input`
 
 function PostForm() {
   const dispatch = useDispatch();
+  const username = useSelector((state) => state.users.me.username);
 
   const validationSchema = Yup.object().shape({
     imageUrl: Yup.string().required(),
@@ -28,20 +29,21 @@ function PostForm() {
     initialValues: {
       imageUrl: "",
     },
-    onSubmit: (values, {resetForm}) => {
-      dispatch(createPost(values, { formik }));
+    onSubmit: (values, { resetForm }) => {
+      dispatch(createPost({ values, username }, { formik }));
       resetForm();
     },
     validationSchema,
   });
-  
+
   return (
-    <StyledForm onSubmit={formik.handleSubmit}>
+    <StyledForm onSubmit={formik.handleSubmit} data-cy="post-form">
       <label htmlFor="imageUrl">Image URL</label>
       <StyledInput
         type="text"
         name="imageUrl"
         id="imageUrl"
+        data-cy="post-input"
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         value={formik.values.imageUrl}

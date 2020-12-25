@@ -6,10 +6,13 @@ import queries from "../../../api/queries";
 function* createPost(action) {
   const { formik } = action.meta;
   try {
-    const data = yield call(mutations.createPost, action.payload);
+    const data = yield call(mutations.createPost, action.payload.values);
     const result = data.data;
     formik.setSubmitting(false);
-    yield put({ type: "CREATE_POST_SUCCESS", payload: result });
+    yield put({
+      type: "CREATE_POST_SUCCESS",
+      payload: result,
+    });
   } catch (error) {
     formik.setSubmitting(false);
     yield put({ type: "CREATE_POST_FAILURE", error });

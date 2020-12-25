@@ -26,8 +26,8 @@ describe("The Log In Suite", () => {
   it("happy workflow", () => {
     cy.visit("http://localhost:3000");
     cy.get("[data-cy=log-in-link]").click();
-    cy.get("[data-cy=email-input]").type("naid@gmail.com");
-    cy.get("[data-cy=password-input]").type("kkkkk");
+    cy.get("[data-cy=email-input]").type("test@gmail.com");
+    cy.get("[data-cy=password-input]").type("test1");
     cy.get("[data-cy=log-in-button]").click();
     cy.location("pathname").should("equal", "/");
     cy.get("[data-cy=feed]").should("be.visible");
