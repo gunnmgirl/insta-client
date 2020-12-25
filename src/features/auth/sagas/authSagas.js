@@ -11,7 +11,7 @@ function* signup(action) {
     formik.setSubmitting(false);
     localStorage.setItem("token", result.token);
     localStorage.setItem("userId", result.user.id);
-    yield put({ type: "SIGNUP_SUCCESS" });
+    yield put({ type: "SIGNUP_SUCCESS", payload: result.user });
     history.push("/");
   } catch (error) {
     formik.setSubmitting(false);

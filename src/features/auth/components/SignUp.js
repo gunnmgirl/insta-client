@@ -125,12 +125,13 @@ function SignUp() {
                 Log in
               </StyledLink>
             </Wrapper>
-            <StyledForm onSubmit={formik.handleSubmit}>
+            <StyledForm onSubmit={formik.handleSubmit} data-cy="signup-form">
               <label htmlFor="firstName">First Name</label>
               <StyledInput
                 type="text"
                 name="firstName"
                 id="firstName"
+                data-cy="firstName-signup-input"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.firstName}
@@ -143,6 +144,7 @@ function SignUp() {
                 type="text"
                 name="lastName"
                 id="lastName"
+                data-cy="lastName-signup-input"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.lastName}
@@ -155,6 +157,7 @@ function SignUp() {
                 type="email"
                 name="email"
                 id="email"
+                data-cy="email-signup-input"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
@@ -167,6 +170,7 @@ function SignUp() {
                 type="text"
                 name="username"
                 id="username"
+                data-cy="username-signup-input"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.username}
@@ -179,6 +183,7 @@ function SignUp() {
                 type="password"
                 name="password"
                 id="password"
+                data-cy="password-signup-input"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
@@ -215,6 +220,7 @@ function SignUp() {
                 type="submit"
                 disabled={formik.isSubmitting}
                 onClick={formik.handleSubmit}
+                data-cy="signup-button"
               >
                 Sign up
               </StyledButton>
